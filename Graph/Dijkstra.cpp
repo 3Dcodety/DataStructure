@@ -1,60 +1,57 @@
 #include<iostream>
-#include<algorithm>
 #include<cstring>
+#include<algorithm>
 using namespace std;
-const int N = 10000;
+int vertexNum;//所有点个数
+int edgeNum;//所有边个数
 const int inf = 0x3f3f3f3f;
-int arc[N][N];
-int dist[N];
-bool visited[N];//
-int vertexNum;
-int edgeNum;
-void dijkstra(int s)
+const int N = 100;
+int dist[N];//起点到i的最短距离
+int vis[N] = { 0 };//标记是否访问
+int arc[N][N];//arc[i][j]邻接矩阵表示i到j的距离
+void dij(int s)
 {
-	memset(dist, inf, sizeof(dist));
-	memset(visited, false, sizeof(visited));
+	memset(vis, 0,sizeof(vis));
+	memset(dist, 0x3f, sizeof(dist));//int为四个字节,该函数将每个字节都填上0x3f   
 	dist[s] = 0;
-	for (int i = 0; i < vertexNum; i++)//vertexNum在这个循环为循环次数
+	for (int i = 0; i < vertexNum; i++)//总共进行vertexNum次更新
 	{
 		int u = -1;
-		int minDist = inf;
+		int mindist = inf;
 		for (int j = 0; j < vertexNum; j++)
 		{
-			if (!visited[j] && dist[j] < minDist)
+			if (!vis[j] && dist[j] < mindist)
 			{
 				u = j;
-				minDist = dist[j];
+				mindist = dist[j];
 			}
-		}//这个循环的目的是找出此次确定最短路径的点
-		if (u == -1)continue;//表示所有点已经访问过或者上次确定最短路径的点没有其他可到达的未访问点
-		visited[u] = true;
-		for (int k = 0; k < vertexNum; k++)
+		}//记录此次更新的距离最小且未标记访问过的点
+		if (u == -1)break;//表示剩下的未访问点均不可到达故结束提前更新
+		vis[u] = 1;//标记代表已确定最短路径
+		for (int j = 0; j < vertexNum; j++)
 		{
-			if (!visited[k] && arc[u][k]!=inf)
+			if (!vis[j] && arc[u][j]!=inf)
 			{
-				dist[k] = min(dist[k],dist[u]+arc[u][k]);
+				dist[j] =min(arc[u][j]+dist[u],dist[j]);
 			}
 		}
 	}
+
 }
 int main()
 {
 	cin >> vertexNum >> edgeNum;
-	for (int i = 0; i < vertexNum; i++)
-	{
-		fill(arc[i], arc[i] + vertexNum, inf);
-	}
+	memset(arc, 0x3f, sizeof(arc));
 	for (int i = 0; i < edgeNum; i++)
 	{
-		int u, v,w;
-		cin >> u >> v>>w;
+		int u, v, w;
+		cin >> u >> v >> w;
 		arc[u][v] = w;
-		arc[v][u] = w;
 	}
 	int start; cin >> start;
-	dijkstra(start);
-	int a[3][4];
-	int (*p)[4] = a + 1;
-	cout<<1 << p;
+	int target; cin >> target;
+	dij(start);
+	if (dist[target] == inf)cout << "无法访问";
+	else cout << dist[target];
 	return 0;
 }
