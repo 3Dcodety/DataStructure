@@ -39,6 +39,18 @@
    * 重复步骤 2 和 3，直到集合 $U$ 为空。
 
 [点击这里查看 C++ 源码](./Dijkstra.cpp)
+### 经典 Dijkstra (迪杰斯特拉) 刷题清单
+
+本项目实现的 Dijkstra 算法模板可以完美解决以下 LeetCode 经典单源最短路径问题：
+
+1. **[LeetCode 743. 网络延迟时间 (Network Delay Time)](https://leetcode.cn/problems/network-delay-time/)**
+   - **特点**：最纯粹的单源最短路径模板题。适合用来验证基础邻接矩阵/邻接表 Dijkstra 模板的正确性。最终答案取决于 `dist` 数组中的最大值。
+
+2. **[LeetCode 787. K 站中转内最便宜的航班 (Cheapest Flights Within K Stops)](https://leetcode.cn/problems/cheapest-flights-within-k-stops/)**
+   - **特点**：带有“步数/中转次数”限制的变形题。在此题中，单纯的最短距离（最便宜机票）可能因为中转次数超标而失效，需要对距离更新策略进行微调。
+
+3. **[LeetCode 1631. 最小体力消耗路径 (Path With Minimum Effort)](https://leetcode.cn/problems/path-with-minimum-effort/)**
+   - **特点**：网格图（二维矩阵）上的路径规划。不需要自己建图，每个格子和上下左右相邻。松弛操作由“路径求和（`+`）”变为了“路径取最大值（`max`）”。
 ---
 
 ## 📊 图解示例
